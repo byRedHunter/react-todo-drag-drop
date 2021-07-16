@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { reorder } from '../utils/reorder'
 
-import Cross from './icons/Cross'
+import Task from './Task'
 
 const tasksList = [
 	{
@@ -71,18 +71,7 @@ const ListTasks = () => {
 								{tasks.map((task, index) => (
 									<Draggable key={task.id} draggableId={task.id} index={index}>
 										{(draggableProided) => (
-											<li
-												{...draggableProided.draggableProps}
-												ref={draggableProided.innerRef}
-												{...draggableProided.dragHandleProps}
-												className={`task flex-between ${task.state}`}
-											>
-												<div className='icon'></div>
-												{task.name}
-												<div className='pointer'>
-													<Cross />
-												</div>
-											</li>
+											<Task draggableProided={draggableProided} task={task} />
 										)}
 									</Draggable>
 								))}
