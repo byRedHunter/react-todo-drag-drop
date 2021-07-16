@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { reorder } from '../utils/reorder'
 
 import Cross from './icons/Cross'
 
-const tasks = [
+const tasksList = [
 	{
 		id: '6sf6sd5f',
 		name: 'Task One',
@@ -36,34 +38,74 @@ const tasks = [
 ]
 
 const ListTasks = () => {
+	const [tasks, setTasks] = useState(tasksList)
+
+	const changeOrder = (element) => {
+		const { source, destination } = element
+
+		if (!destination) return
+
+		if (
+			source.index === destination.index &&
+			source.droppableId === destination.droppableId
+		)
+			return
+
+		setTasks((prevTasks) => reorder(prevTasks, source.index, destination.index))
+	}
+
 	return (
-		<div className='container'>
-			<section className='task-card'>
-				<ul className='task-content'>
-					{tasks.map((task) => (
-						<li key={task.id} className={`task flex-between ${task.state}`}>
-							<div className='icon'></div>
-							{task.name}
-							<div className='pointer'>
-								<Cross />
-							</div>
-						</li>
-					))}
-				</ul>
+		<DragDropContext
+			onDragEnd={(result) => changeOrder(result)}
+			direction='vertical'
+		>
+			<div className='container'>
+				<section className='task-card'>
+					<Droppable droppableId='task-list'>
+						{(droppableProvided) => (
+							<ul
+								{...droppableProvided.droppableProps}
+								ref={droppableProvided.innerRef}
+								className='task-content'
+							>
+								{tasks.map((task, index) => (
+									<Draggable key={task.id} draggableId={task.id} index={index}>
+										{(draggableProided) => (
+											<li
+												{...draggableProided.draggableProps}
+												ref={draggableProided.innerRef}
+												{...draggableProided.dragHandleProps}
+												className={`task flex-between ${task.state}`}
+											>
+												<div className='icon'></div>
+												{task.name}
+												<div className='pointer'>
+													<Cross />
+												</div>
+											</li>
+										)}
+									</Draggable>
+								))}
 
-				<div className='task-footer flex-between'>
-					<div className='task-info'>{tasks.length} items left</div>
-					<ul className='task-filter'>
-						<li className='item-filter active pointer'>All</li>
-						<li className='item-filter pointer'>Active</li>
-						<li className='item-filter pointer'>Completed</li>
-					</ul>
-					<div className='task-clear pointer'>Clear Completed</div>
-				</div>
+								{droppableProvided.placeholder}
+							</ul>
+						)}
+					</Droppable>
 
-				<p className='text-info'>Drag and drop to reorder list</p>
-			</section>
-		</div>
+					<div className='task-footer flex-between'>
+						<div className='task-info'>{tasks.length} items left</div>
+						<ul className='task-filter'>
+							<li className='item-filter active pointer'>All</li>
+							<li className='item-filter pointer'>Active</li>
+							<li className='item-filter pointer'>Completed</li>
+						</ul>
+						<div className='task-clear pointer'>Clear Completed</div>
+					</div>
+
+					<p className='text-info'>Drag and drop to reorder list</p>
+				</section>
+			</div>
+		</DragDropContext>
 	)
 }
 
