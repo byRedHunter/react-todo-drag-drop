@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ThemeContext } from '../context/theme/ThemeContext'
 
 import Sun from './icons/Sun'
+import Moon from './icons/Moon'
 
 const Header = () => {
+	const stateTheme = useContext(ThemeContext)
+	const { darkMode, changeDarkMode } = stateTheme
+
 	return (
-		<header className='header'>
+		<header className={`header ${!darkMode && 'light'}`}>
 			<div className='container'>
 				<div className='header-head flex-between'>
 					<h1 className='header-head-title'>TODO</h1>
-					<div className='header-head-icon pointer'>
-						<Sun />
+					<div
+						className='header-head-icon pointer'
+						onClick={() => changeDarkMode()}
+					>
+						{darkMode ? <Sun /> : <Moon />}
 					</div>
 				</div>
 
