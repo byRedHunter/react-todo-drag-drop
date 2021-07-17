@@ -6,7 +6,7 @@ import uniqid from 'uniqid'
 
 export const TaskState = ({ children }) => {
 	const initialState = {
-		taskList: localStorage.getItem('taskList') || [],
+		taskList: JSON.parse(localStorage.getItem('taskList')) || [],
 	}
 
 	// crear el dispath y el state
@@ -22,12 +22,15 @@ export const TaskState = ({ children }) => {
 			state: 'new',
 		}
 
+		localStorage.setItem(
+			'taskList',
+			JSON.stringify([taskObjet, ...state.taskList])
+		)
+
 		dispatch({
 			type: ADD_TASK_TO_LIST,
 			payload: taskObjet,
 		})
-
-		localStorage.setItem('taskList', state.taskList)
 	}
 
 	return (
