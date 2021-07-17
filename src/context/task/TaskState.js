@@ -1,6 +1,7 @@
 import { useReducer } from 'react'
 import {
 	ADD_TASK_TO_LIST,
+	CHANGE_TASK_STATE,
 	DELETE_TASK_TO_LIST,
 	REORDER_TASK_LIST,
 } from '../../types'
@@ -23,7 +24,7 @@ export const TaskState = ({ children }) => {
 		const taskObjet = {
 			id: uniqid('task-'),
 			name: task,
-			state: 'new',
+			active: true,
 		}
 
 		localStorage.setItem(
@@ -53,6 +54,14 @@ export const TaskState = ({ children }) => {
 		})
 	}
 
+	// change task state
+	const changeTaskState = (task) => {
+		dispatch({
+			type: CHANGE_TASK_STATE,
+			payload: task,
+		})
+	}
+
 	return (
 		<TaskContext.Provider
 			value={{
@@ -60,6 +69,7 @@ export const TaskState = ({ children }) => {
 				addTaskToList,
 				deleteTaskToList,
 				reorderTasks,
+				changeTaskState,
 			}}
 		>
 			{children}

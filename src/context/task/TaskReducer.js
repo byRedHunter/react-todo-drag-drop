@@ -1,5 +1,6 @@
 import {
 	ADD_TASK_TO_LIST,
+	CHANGE_TASK_STATE,
 	DELETE_TASK_TO_LIST,
 	REORDER_TASK_LIST,
 } from '../../types'
@@ -34,6 +35,16 @@ export const TaskReducer = (state, action) => {
 			return {
 				...state,
 				taskList: result,
+			}
+
+		case CHANGE_TASK_STATE:
+			return {
+				...state,
+				taskList: state.taskList.map((task) =>
+					task.id === action.payload.id
+						? { ...task, active: !task.active }
+						: task
+				),
 			}
 
 		default:
