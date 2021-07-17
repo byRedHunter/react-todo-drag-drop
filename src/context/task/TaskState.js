@@ -2,6 +2,7 @@ import { useReducer } from 'react'
 import {
 	ADD_TASK_TO_LIST,
 	CHANGE_TASK_STATE,
+	DELETE_COMPLETED_TASKS,
 	DELETE_TASK_TO_LIST,
 	REORDER_TASK_LIST,
 } from '../../types'
@@ -62,6 +63,13 @@ export const TaskState = ({ children }) => {
 		})
 	}
 
+	// deleted completed tasks
+	const deletedCompletedTask = () => {
+		dispatch({
+			type: DELETE_COMPLETED_TASKS,
+		})
+	}
+
 	return (
 		<TaskContext.Provider
 			value={{
@@ -70,6 +78,7 @@ export const TaskState = ({ children }) => {
 				deleteTaskToList,
 				reorderTasks,
 				changeTaskState,
+				deletedCompletedTask,
 			}}
 		>
 			{children}

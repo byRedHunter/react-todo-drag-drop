@@ -1,6 +1,7 @@
 import {
 	ADD_TASK_TO_LIST,
 	CHANGE_TASK_STATE,
+	DELETE_COMPLETED_TASKS,
 	DELETE_TASK_TO_LIST,
 	REORDER_TASK_LIST,
 } from '../../types'
@@ -23,6 +24,16 @@ export const TaskReducer = (state, action) => {
 			return {
 				...state,
 				taskList: restTasks,
+			}
+
+		case DELETE_COMPLETED_TASKS:
+			const activeTasks = state.taskList.filter((task) => task.active !== false)
+
+			localStorage.setItem('taskList', JSON.stringify([...activeTasks]))
+
+			return {
+				...state,
+				taskList: activeTasks,
 			}
 
 		case REORDER_TASK_LIST:

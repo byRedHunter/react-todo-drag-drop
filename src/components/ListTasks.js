@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { TaskContext } from '../context/task/TaskContext'
 
 import Task from './Task'
+import TaskFooter from './TaskFooter'
 
 const ListTasks = () => {
 	const stateTasks = useContext(TaskContext)
@@ -56,17 +57,7 @@ const ListTasks = () => {
 						)}
 					</Droppable>
 
-					<div className='task-footer flex-between'>
-						<div className='task-info'>{taskList.length} items left</div>
-						<ul className='task-filter'>
-							<li className='item-filter active pointer'>All</li>
-							<li className='item-filter pointer'>Active</li>
-							<li className='item-filter pointer'>Completed</li>
-						</ul>
-						<div className='task-clear pointer'>Clear Completed</div>
-					</div>
-
-					<p className='text-info'>Drag and drop to reorder list</p>
+					<TaskFooter totalTasks={taskList.length} />
 				</section>
 			</div>
 		</DragDropContext>
