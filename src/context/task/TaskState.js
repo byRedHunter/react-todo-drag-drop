@@ -4,6 +4,7 @@ import {
 	CHANGE_TASK_STATE,
 	DELETE_COMPLETED_TASKS,
 	DELETE_TASK_TO_LIST,
+	GET_ITEM_TO_FILTER,
 	REORDER_TASK_LIST,
 } from '../../types'
 import { TaskContext } from './TaskContext'
@@ -13,6 +14,7 @@ import uniqid from 'uniqid'
 export const TaskState = ({ children }) => {
 	const initialState = {
 		taskList: JSON.parse(localStorage.getItem('taskList')) || [],
+		itemFilter: 'all',
 	}
 
 	// crear el dispath y el state
@@ -70,15 +72,25 @@ export const TaskState = ({ children }) => {
 		})
 	}
 
+	// get item to filter
+	const getItemToFilter = (item) => {
+		dispatch({
+			type: GET_ITEM_TO_FILTER,
+			payload: item,
+		})
+	}
+
 	return (
 		<TaskContext.Provider
 			value={{
 				taskList: state.taskList,
+				itemFilter: state.itemFilter,
 				addTaskToList,
 				deleteTaskToList,
 				reorderTasks,
 				changeTaskState,
 				deletedCompletedTask,
+				getItemToFilter,
 			}}
 		>
 			{children}

@@ -3,6 +3,7 @@ import {
 	CHANGE_TASK_STATE,
 	DELETE_COMPLETED_TASKS,
 	DELETE_TASK_TO_LIST,
+	GET_ITEM_TO_FILTER,
 	REORDER_TASK_LIST,
 } from '../../types'
 
@@ -56,6 +57,12 @@ export const TaskReducer = (state, action) => {
 						? { ...task, active: !task.active }
 						: task
 				),
+			}
+
+		case GET_ITEM_TO_FILTER:
+			return {
+				...state,
+				itemFilter: action.payload,
 			}
 
 		default:
