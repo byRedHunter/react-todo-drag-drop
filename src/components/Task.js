@@ -11,7 +11,9 @@ const Task = ({ draggableProided, task }) => {
 			{...draggableProided.dragHandleProps}
 			className={`task flex-between ${task.state}`}
 		>
-			<div className='icon'>{task.state === 'completed' && <Check />}</div>
+			<div className='icon pointer'>
+				{task.state === 'completed' && <Check />}
+			</div>
 			{task.name}
 			<div className='pointer'>
 				<Cross />

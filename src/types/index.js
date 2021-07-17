@@ -1,1 +1,3 @@
 export const CHANGE_DARK_MODE = 'CHANGE_DARK_MODE'
+
+export const ADD_TASK_TO_LIST = 'ADD_TASK_TO_LIST'
