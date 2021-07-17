@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { TaskContext } from '../context/task/TaskContext'
-import { reorder } from '../utils/reorder'
 
 import Task from './Task'
 
 const ListTasks = () => {
 	const stateTasks = useContext(TaskContext)
-	const { taskList } = stateTasks
+	const { taskList, reorderTasks } = stateTasks
 
 	const changeOrder = (element) => {
 		const { source, destination } = element
@@ -20,7 +19,7 @@ const ListTasks = () => {
 		)
 			return
 
-		reorder(taskList, source.index, destination.index)
+		reorderTasks(source.index, destination.index)
 	}
 
 	if (taskList.length === 0)
